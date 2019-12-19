@@ -26,6 +26,10 @@ class Posts extends React.Component {
     this.setState({ posts: [data, ...this.state.posts] })
   }
 
+  update = (data) => {
+    this.setState({ post: data })
+  }
+
   deletePost = (id) => {
     axios.delete(`/api/posts/${id}`)
       .then( res => {
@@ -50,14 +54,14 @@ class Posts extends React.Component {
       <>
         <br />
         <br />
-        <PostForm add={this.addPost} toggle={this.state.toggle} toggleForm={this.toggleForm} />
+        <PostForm posts={this.state.posts} add={this.addPost} toggle={this.state.toggle} toggleForm={this.toggleForm} />
         </>
         : 
         null
       }
       </Grid.Column>
       </Grid>
-      <PostList posts={this.state.posts} deletePost={this.deletePost} />
+      <PostList update={this.update} posts={this.state.posts} deletePost={this.deletePost} />
       </>
     )
   }

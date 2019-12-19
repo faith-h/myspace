@@ -12,13 +12,24 @@ class PostForm extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault()
+    debugger
     const post = {...this.state}
-    const { add, toggleForm } = this.props
+    const { id } = this.props
+    if (id) {
+      axios.put(`/api/posts/${id}`, post)
+        .then( res => {
+          this.props.update(res.data)
+          this.props.toggleForm()
+        })
+    } else {
+      const post = {...this.state}
+      const { add, toggleForm } = this.props
       axios.post(`/api/posts`, post)
       .then( res => {
         add(res.data)
         toggleForm()
       })
+    }
   }
 
   render() {

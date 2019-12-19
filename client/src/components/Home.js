@@ -25,7 +25,6 @@ class Home extends React.Component {
   upVote = (id) => {
     const { friends } = this.state
     axios.put(`/api/friends/${id}`)
-    // ^ friends.update, may not be correct id
       .then( () => this.setState({ friends: friends.filter( f => f.id !== id ) }) )
   }
 

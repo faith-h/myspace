@@ -8,7 +8,7 @@ class PostList extends React.Component {
   toggleForm = () => this.setState({ toggle: !this.state.toggle})
   
   render() {
-    const post = {...this.props}
+
     return (
       <>
       <br />
@@ -35,7 +35,7 @@ class PostList extends React.Component {
             <>
             <br />
             <br />
-            <PostForm toggle={this.state.toggle} toggleForm={this.toggleForm} />
+            <PostForm id={post.id} update={this.props.update} toggle={this.state.toggle} toggleForm={this.toggleForm} />
             <br />
             </>
             : 
