@@ -1,18 +1,15 @@
 import axios from 'axios'
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Header, Image, Card, Button, Icon } from 'semantic-ui-react'
-
-// TODO: change downvote/upvote to add/remove friends
+import { Header, Image, Card, Button, Icon, Grid } from 'semantic-ui-react'
 
 class Home extends React.Component {
   state = { friends: [] }
 
   componentDidMount() {
-    axios.get(`/api/user/:user_id/friends`)
-      .then(res => this.setState({ cars: res.data }) )
+    axios.get(`/api/friends`)
+      .then(res => this.setState({ friends: res.data }) )
   }
-  // TODO: pass in user id here to render friends ^ 
 
   sample = () => {
     const { friends } = this.state
@@ -29,12 +26,12 @@ class Home extends React.Component {
     const { friends } = this.state
     axios.put(`/api/friends/${id}`)
     // ^ friends.update, may not be correct id
-      .then( () => this.setState({ friends: friends.filter( f => f.id != id ) }) )
+      .then( () => this.setState({ friends: friends.filter( f => f.id !== id ) }) )
   }
 
   downVote = (id) => {
     const { friends } = this.state
-    this.setState({ friends: friends.filter( f => f.id != id ) })
+    this.setState({ friends: friends.filter( f => f.id !== id ) })
   }
 
     render() {
@@ -44,9 +41,24 @@ class Home extends React.Component {
       return (
         <div>
           <br />
-          <Header as='h1'> MySpace </Header>
+          <Header as='h1' align='center'> MySpace </Header>
+          <Grid>
+          <Grid.Column textAlign='center'>
+          <Link to='/my_friends'>
+            <Button color="blue">
+              My Friends
+            </Button>
+            </Link>
+            <Link to='/posts'>
+            <Button color="blue" align='center'>
+              My Posts
+            </Button>
+            </Link>
+            </Grid.Column>
+            </Grid>
           <br />
-          <Card key={friend.id}>
+          <Header as='h3'> People you may know: </Header>
+          <Card key={ friend.id }>
             <Image src={friend.avatar} />
             <Card.Content>
               <Card.Header>
@@ -57,24 +69,21 @@ class Home extends React.Component {
               </Card.Description>
             </Card.Content>
             <Card.Content extra>
+            <Button color="green" icon basic onClick={ () => this.upVote(friend.id)}>
+                <Icon name="plus" /> Add to Friends
+                </Button>
               <Button color="red" icon basic onClick={ () => this.downVote(friend.id)}>
-                <Icon name="thumbs down" />
-              </Button>
-              <Button color="green" icon basic onClick={ () => this.upVote(friend.id)}>
-                <Icon name="thumbs up" />
+                <Icon name="minus" /> Hide
               </Button>
             </Card.Content>
           </Card>
-          <Link to='/my_friends'>
-            <Button color="blue">
-            </Button>
-          </Link>
         </div>
       )
       } else {
-        return <Header textAlign='center'> No More Friends </Header>
+        return <> <br /> <Header as='h1' textAlign='center'> MySpace </Header> </>
     }
   }
 }
+
 
 export default Home;

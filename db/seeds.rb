@@ -1,7 +1,7 @@
 10.times do
   name = Faker::Name.name
-  bio = Faker::TvShows::SouthPark.quote
-  avatar = Faker::Avatar.image(name, '100x400', 'png', 'set5')
+  bio = Faker::Quote.matz
+  avatar = Faker::Avatar.image(slug: name, size: '200x300', format: 'png', set: 'set5')
   Friend.create(name: name, bio: bio, avatar: avatar)
 end
 
